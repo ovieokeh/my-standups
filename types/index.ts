@@ -8,16 +8,18 @@ interface IStandup {
   items: IItem[]
 }
 
+export enum ItemStatus {
+  Initial = 'Initial',
+  Done = 'Done',
+  Pending = 'Pending',
+  Invalid = 'Invalid',
+}
+
 interface IItem {
   id?: string
   description: string
   date: number
-  status: {
-    Initial: 'Initial'
-    Done: 'Done'
-    Pending: 'Pending'
-    Invalid: 'Invalid'
-  }
+  status: keyof typeof ItemStatus
 }
 
 type IStandups = IStandup[]
