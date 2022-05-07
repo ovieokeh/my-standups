@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { getDbClient, addStandup } from '../../../utils/'
+import { getDbClient, addStandup } from '../../../utils'
 import { IStandup } from '../../../types'
 
 export default async function createStandup(
@@ -10,8 +10,11 @@ export default async function createStandup(
   const [client, collection] = await getDbClient()
 
   try {
-    const standup = await addStandup(request.body as IStandup, collection)
-    await client.close()
+    const standup = await addStandup(
+      JSON.parse(request.body) as IStandup,
+      collection
+    )
+    // await client.close()
 
     response.status(201).json({
       message: 'standup created successfully',

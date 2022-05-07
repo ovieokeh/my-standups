@@ -11,7 +11,7 @@ export default async function getAllStandupsHandler(
   try {
     const standups = await getAllStandups(collection)
     await client.close()
-    response.status(200).json(standups)
+    response.status(200).json({ data: standups })
   } catch (error) {
     response.status(500).json({
       message: error.message,

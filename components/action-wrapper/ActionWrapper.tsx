@@ -1,8 +1,9 @@
 import styles from './ActionWrapper.module.scss'
 
 export default function ActionWrapper({ children, isComplete }) {
+  const className = `${styles.aw} ${isComplete ? styles.awDisabled : ''}`.trim()
   return (
-    <div className={styles.aw}>
+    <div className={className}>
       <button type="button" className={styles.awAction}>
         −
       </button>
@@ -10,9 +11,13 @@ export default function ActionWrapper({ children, isComplete }) {
       <button type="button" className={styles.awAction}>
         {isComplete ? '♺' : '✓'}
       </button>
-      <button type="button" className={styles.awAction}>
-        ＋
-      </button>
+      {
+        !isComplete && (
+          <button type="button" className={styles.awAction}>
+            ＋
+          </button>
+        )
+      }
     </div>
   )
 }

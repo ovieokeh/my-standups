@@ -7,6 +7,7 @@ describe.only('/api/updateStandupHandler', () => {
 
   beforeAll(async () => {
     const [, response] = await makeRequest('POST', {}, mockStandup)
+    console.log({ response })
     seedStandup = response.standup
   })
 

@@ -5,7 +5,9 @@
   width: 100%;
 
   &Content {
-    display: flex;
+    display: grid;
+    grid-template-columns: 60% 40%;
+    gap: 36px;
     // flex-wrap: wrap;
     // gap: 25%;
     // width: 100%;

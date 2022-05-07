@@ -1,11 +1,11 @@
 import { IStandups, ItemStatus } from './types'
 
 const items: { [id: string]: IStandups } = {
-  '07/05/2022': [
+  '05/8/2022': [
     {
       _id: '1',
       name: 'GO-190',
-      createdAt: Date.now(),
+      createdAt: 1651960800000,
       items: [
         {
           id: '1',
@@ -22,7 +22,7 @@ const items: { [id: string]: IStandups } = {
     {
       _id: '2',
       name: 'GO-188',
-      createdAt: Date.now() - 10000,
+      createdAt: 1651960800000 - 10000,
       items: [
         {
           id: '3',
@@ -34,7 +34,7 @@ const items: { [id: string]: IStandups } = {
     {
       _id: '3',
       name: 'GO-187',
-      createdAt: Date.now() - 20000,
+      createdAt: 1651960800000 - 20000,
       items: [
         {
           id: '4',
@@ -54,11 +54,11 @@ const items: { [id: string]: IStandups } = {
       ],
     },
   ],
-  '06/05/2022': [
+  '05/07/2022': [
     {
       _id: '4',
       name: 'GO-190',
-      createdAt: Date.now() - 100000,
+      createdAt: 1651874400000,
       items: [
         {
           id: '7',
@@ -70,7 +70,7 @@ const items: { [id: string]: IStandups } = {
     {
       _id: '5',
       name: 'GO-188',
-      createdAt: Date.now() - 110000,
+      createdAt: 1651874400000 - 11000,
       items: [
         {
           id: '8',
@@ -87,7 +87,7 @@ const items: { [id: string]: IStandups } = {
     {
       _id: '6',
       name: 'GO-187',
-      createdAt: Date.now() - 120000,
+      createdAt: 1651874400000 - 12000,
       items: [
         {
           id: '10',

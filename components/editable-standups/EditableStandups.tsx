@@ -24,7 +24,7 @@ export default function EditableStandups({ standups }) {
 
   const renderEditableStandups = standups.map(({ _id, items }) => {
     return (
-      <div className={styles.formItem}>
+      <div key={_id} className={styles.formItem}>
         <FormInput
           value={standupsName[_id]}
           handleChange={(event) => handleStandupName(_id, event.target.value)}

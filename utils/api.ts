@@ -5,13 +5,19 @@ import {
   ObjectId,
   UpdateResult,
 } from 'mongodb'
-import { createMocks } from 'node-mocks-http'
+import {
+  createMocks as _createMocks,
+  Mocks,
+  RequestOptions,
+  ResponseOptions,
+} from 'node-mocks-http'
 
 import { setupClient } from './client'
 import getAllStandupsHandler from '../pages/api/standups'
-import createStandupHandler from '../pages/api/standups/create'
+import createStandupHandler from '../pages/api/standups/new'
 import updateStandupHandler from '../pages/api/standups/[id]'
 import { IStandup } from '../types'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 class ValidationError extends Error {
   message: string
@@ -106,11 +112,16 @@ export const deleteStandup = async (
   return result
 }
 
+const createMocks = _createMocks as (
+  reqOptions?: RequestOptions,
+  resOptions?: ResponseOptions
+) => Mocks<NextApiRequest, NextApiResponse>
+
 export const makeRequest = async (method, query = {}, body = {}) => {
   const { req, res } = createMocks({
     method,
     query,
-    body,
+    body: JSON.stringify(body) as any,
   })
 
   if (method === 'TEARDOWN') {

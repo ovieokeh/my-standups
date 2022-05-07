@@ -47,7 +47,7 @@ export default async function updateStandup(
       PUT: async () => {
         try {
           const result = await modifyStandup(
-            body as IStandup,
+            JSON.parse(request.body) as IStandup,
             standup,
             collection
           )

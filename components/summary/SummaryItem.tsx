@@ -1,8 +1,10 @@
 import { IStandupItem, ItemStatus } from "../../types"
 
+import styles from './Summary.module.scss'
+
 export default function SummaryItem({ description, status }: IStandupItem) {
-  const itemClassname = `summary__item ${
-    status === ItemStatus.Done ? 'summary__item--complete' : ''
+  const itemClassname = `${styles.summaryItem} ${
+    status === ItemStatus.Done ? styles.summaryItemComplete : ''
   }`.trim()
 
   return (
