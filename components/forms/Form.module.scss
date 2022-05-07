@@ -1,0 +1,27 @@
+.form {
+  &ItemGroup {
+    display: flex;
+    align-items: center;
+
+    &ItemGroupCompleted {
+      text-decoration: line-through;
+      opacity: 0.7;
+    }
+  }
+  
+  &Item {
+    margin: 14px 0;
+  }
+  
+  &ItemInput {
+    display: block;
+    font-size: 16px;
+    border: none;
+    padding: 8px;
+    width: 100%;
+  }
+
+  &ItemCheckbox {
+    width: 24px;
+  }
+}

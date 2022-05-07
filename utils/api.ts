@@ -56,7 +56,7 @@ export const getStandup = async (
 }
 
 export const addStandup = async (
-  { createdAt, items }: IStandup,
+  { name, createdAt, items }: IStandup,
   collection: Collection<IStandup>
 ): Promise<IStandup> => {
   if (!createdAt || !items || !items?.length) {
@@ -71,6 +71,7 @@ export const addStandup = async (
 
   let result: IStandup
   const { insertedId } = await collection.insertOne({
+    name,
     createdAt,
     items,
   })

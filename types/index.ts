@@ -4,8 +4,9 @@ interface IUser {
 
 interface IStandup {
   _id?: string
+  name: string
   createdAt: number
-  items: IItem[]
+  items: IStandupItem[]
 }
 
 export enum ItemStatus {
@@ -15,13 +16,12 @@ export enum ItemStatus {
   Invalid = 'Invalid',
 }
 
-interface IItem {
+interface IStandupItem {
   id?: string
   description: string
-  date: number
   status: keyof typeof ItemStatus
 }
 
 type IStandups = IStandup[]
 
-export type { IUser, IStandup, IItem, IStandups }
+export type { IUser, IStandup, IStandupItem, IStandups }
