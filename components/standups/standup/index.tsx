@@ -10,7 +10,7 @@ import { ItemStatus } from '../../../types'
 
 import styles from './Standup.module.scss'
 
-export default function EditableStandup({ _id, name, items }) {
+export default function EditableStandup({ _id, name, items, canEdit = true }) {
   const [standupsName, setStandupsName] = useState(name)
   const [state, setState] = useState('done')
   const { mutate } = useStandupsApi()
@@ -48,13 +48,12 @@ export default function EditableStandup({ _id, name, items }) {
       </ActionWrapper>
 
       <div className={styles.eStandupContent}>
-        <ItemForm standupId={_id} invertInputStyle={true} />
-
-        {/* {!!items.length && <Separator />} */}
+        {canEdit && <ItemForm standupId={_id} invertInputStyle={true} />}
 
         <StandupItems
           standupId={_id}
           items={items.map((item) => ({ ...item, standupId: _id }))}
+          canEdit={canEdit}
         />
       </div>
     </div>

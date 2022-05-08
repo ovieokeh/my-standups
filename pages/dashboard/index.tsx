@@ -5,6 +5,7 @@ import Summary from '../../components/summary'
 import useStandupsApi from '../../hooks/useStandupsApi'
 import useSyncPendingItems from '../../hooks/useSyncPendingItems'
 import mock from '../../mock'
+import { ItemStatus } from '../../types'
 
 import styles from './Dashboard.module.scss'
 
@@ -42,10 +43,22 @@ export default function Dashboard() {
 
   useSyncPendingItems({ todaysStandups, previousDayStandups, mutate })
 
+  const completedStandups = []
+  const pendingStandups = []
   todaysStandups?.sort((a, b) => {
     if (a.createdAt < b.createdAt) return 1
     if (a.createdAt > b.createdAt) return -1
     return 0
+  })
+  todaysStandups?.forEach((standup) => {
+    if (
+      !standup.items.length ||
+      standup.items.some((item) => item.status === ItemStatus.Pending)
+    ) {
+      pendingStandups.push(standup)
+    } else {
+      completedStandups.push(standup)
+    }
   })
 
   return (
@@ -56,10 +69,12 @@ export default function Dashboard() {
       <div className={styles.dashboardContent}>
         <section>
           <h3>What will you do today?</h3>
-
           <div>
             <StandupForm />
-            <Standups standups={todaysStandups} />
+            <Standups
+              pendingStandups={pendingStandups}
+              completedStandups={completedStandups}
+            />
           </div>
         </section>
 

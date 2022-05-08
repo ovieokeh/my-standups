@@ -8,7 +8,7 @@ import useStandupsApi from '../../../hooks/useStandupsApi'
 
 import styles from './Item.module.scss'
 
-export default function StandupItem({ standupId, item, items }) {
+export default function StandupItem({ standupId, item, items, canEdit }) {
   const [editableFields, setEditableFields] = useState({
     description: item.description,
     status: item.status,
@@ -70,6 +70,8 @@ export default function StandupItem({ standupId, item, items }) {
   }
 
   const handleDescriptionChange = (e) => {
+    if (!canEdit) return
+
     setEditableFields((prevEditableFields) => ({
       ...prevEditableFields,
       description: e.target.value,

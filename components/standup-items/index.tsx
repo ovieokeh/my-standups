@@ -1,7 +1,7 @@
 import StandupItem from './item'
 import { ItemStatus } from '../../types'
 
-export default function StandupItems({ standupId, items }) {
+export default function StandupItems({ standupId, items, canEdit }) {
   items.sort((a, b) => {
     if (a.createdAt < b.createdAt) return 1
     if (a.createdAt > b.createdAt) return -1
@@ -23,6 +23,7 @@ export default function StandupItems({ standupId, items }) {
         standupId={standupId}
         item={item}
         items={items}
+        canEdit={canEdit}
       />
     )
   })
