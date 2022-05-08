@@ -35,7 +35,7 @@ export default function EditableStandupItem({ standupId, item, items }) {
       })
     }
 
-    await fetch(`http://localhost:3000/api/standups/${standupId}`, {
+    await fetch(`${window.location.origin}/api/standups/${standupId}`, {
       method: 'PUT',
       body: JSON.stringify(payload),
     })

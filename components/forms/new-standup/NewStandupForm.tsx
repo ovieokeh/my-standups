@@ -15,7 +15,7 @@ export default function NewStandupForm() {
     event.preventDefault()
 
     setState('pending')
-    await fetch(`http://localhost:3000/api/standups`, {
+    await fetch(`${window.location.origin}/api/standups`, {
       method: 'POST',
       body: JSON.stringify({ name, items: [] }),
     })

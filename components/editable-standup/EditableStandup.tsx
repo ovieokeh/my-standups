@@ -19,7 +19,7 @@ export default function EditableStandup({ _id, name, items }) {
 
   const handleStandupDelete = async () => {
     setState('pending')
-    await fetch(`http://localhost:3000/api/standups/${_id}`, {
+    await fetch(`${window.location.origin}/api/standups/${_id}`, {
       method: 'DELETE',
     })
     setState('done')

@@ -19,7 +19,7 @@ const profile = {
 const seedDatabase = async () => {
   const promises = [...Object.values(mock)].map(async (standups) => {
     return standups.map(async (standup) => {
-      const response = await fetch('http://localhost:3000/api/standups', {
+      const response = await fetch('${window.location.origin}/api/standups', {
         method: 'POST',
         body: JSON.stringify(standup),
       })
