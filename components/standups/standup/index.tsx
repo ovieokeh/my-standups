@@ -1,13 +1,14 @@
 import { useState } from 'react'
 
-import EditableStandupItems from '../editable-standup-items/EditableStandupItems'
-import ItemForm from './item-form/ItemForm'
-import FormInput from '../form-input/FormInput'
+import StandupItems from '../../standup-items'
+import ActionWrapper from '../../action-wrapper'
+import ItemForm from '../../forms/standup-item'
+import FormInput from '../../forms/input'
 
-import styles from './EditableStandup.module.scss'
-import ActionWrapper from '../action-wrapper/ActionWrapper'
-import { ItemStatus } from '../../types'
-import useStandupsApi from '../../hooks/useStandupsApi'
+import useStandupsApi from '../../../hooks/useStandupsApi'
+import { ItemStatus } from '../../../types'
+
+import styles from './Standup.module.scss'
 
 export default function EditableStandup({ _id, name, items }) {
   const [standupsName, setStandupsName] = useState(name)
@@ -51,7 +52,7 @@ export default function EditableStandup({ _id, name, items }) {
 
         {/* {!!items.length && <Separator />} */}
 
-        <EditableStandupItems
+        <StandupItems
           standupId={_id}
           items={items.map((item) => ({ ...item, standupId: _id }))}
         />

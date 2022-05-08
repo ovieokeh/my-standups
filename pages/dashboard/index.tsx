@@ -1,9 +1,10 @@
-import Form from '../../components/forms/Form'
-import Summary from '../../components/summary/Summary'
-import mock from '../../mock'
+import StandupForm from '../../components/forms/standup'
+import Standups from '../../components/standups'
+import Summary from '../../components/summary'
 
 import useStandupsApi from '../../hooks/useStandupsApi'
 import useSyncPendingItems from '../../hooks/useSyncPendingItems'
+import mock from '../../mock'
 
 import styles from './Dashboard.module.scss'
 
@@ -53,15 +54,19 @@ export default function Dashboard() {
       <p className={styles.dashboardDate}>{profile.date}</p>
 
       <div className={styles.dashboardContent}>
-        <div>
+        <section>
           <h3>What will you do today?</h3>
-          <Form standups={todaysStandups} />
-        </div>
 
-        <div>
+          <div>
+            <StandupForm />
+            <Standups standups={todaysStandups} />
+          </div>
+        </section>
+
+        <section>
           <h3>Your previous day summary</h3>
           <Summary standups={previousDayStandups} />
-        </div>
+        </section>
       </div>
     </div>
   )

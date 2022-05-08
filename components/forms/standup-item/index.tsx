@@ -1,13 +1,17 @@
 import { useState } from 'react'
 
+import FormButton from '../submit-button'
+import FormInput from '../input'
+
 import useStandupsApi from '../../../hooks/useStandupsApi'
 import { ItemStatus } from '../../../types'
-import FormButton from '../../form-button/FormButton'
-import FormInput from '../../form-input/FormInput'
 
-import styles from './ItemForm.module.scss'
+import styles from './StandupItemForm.module.scss'
 
-export default function ItemForm({ standupId, invertInputStyle = false }) {
+export default function StandupItemForm({
+  standupId,
+  invertInputStyle = false,
+}) {
   const [newItemDescription, setNewItemDescription] = useState('')
   const [state, setState] = useState('initial')
   const { mutate } = useStandupsApi()

@@ -1,9 +1,7 @@
-import { Fragment } from 'react'
-
-import EditableStandupItem from '../editable-standup-item/EditableStandupItem'
+import StandupItem from './item'
 import { ItemStatus } from '../../types'
 
-export default function EditableStandupItems({ standupId, items }) {
+export default function StandupItems({ standupId, items }) {
   items.sort((a, b) => {
     if (a.createdAt < b.createdAt) return 1
     if (a.createdAt > b.createdAt) return -1
@@ -20,7 +18,7 @@ export default function EditableStandupItems({ standupId, items }) {
     const combinedIds = `${standupId}${item._id}`
 
     return (
-      <EditableStandupItem
+      <StandupItem
         key={combinedIds}
         standupId={standupId}
         item={item}

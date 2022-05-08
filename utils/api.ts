@@ -103,7 +103,6 @@ export const makeRequest = async (method, query = {}, body = {}) => {
     await StandupModel.deleteMany({}).exec()
     await StandupItemModel.deleteMany({}).exec()
     await disconnect()
-    console.log('teardown complete')
 
     return [200, true]
   }

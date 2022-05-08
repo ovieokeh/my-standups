@@ -1,5 +1,6 @@
 import { ChangeEventHandler, useEffect, useRef } from 'react'
-import styles from './FormInput.module.scss'
+
+import styles from './Input.module.scss'
 
 type FormInputProps = {
   value: string
@@ -12,7 +13,7 @@ type FormInputProps = {
   handleLoseFocus?: Function
 }
 
-export default function FormInput({
+export default function Input({
   type = 'input',
   value,
   placeholder,

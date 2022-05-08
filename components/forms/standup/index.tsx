@@ -1,12 +1,12 @@
 import { useState } from 'react'
+
+import FormButton from '../submit-button'
+import FormInput from '../input'
 import useStandupsApi from '../../../hooks/useStandupsApi'
 
-import FormButton from '../../form-button/FormButton'
-import FormInput from '../../form-input/FormInput'
+import styles from './StandupForm.module.scss'
 
-import styles from './NewStandupForm.module.scss'
-
-export default function NewStandupForm() {
+export default function StandupForm() {
   const [state, setState] = useState('initial')
   const [name, setName] = useState('')
   const { mutate } = useStandupsApi()

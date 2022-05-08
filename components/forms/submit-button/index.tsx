@@ -1,6 +1,6 @@
-import styles from './FormButton.module.scss'
+import styles from './SubmitButton.module.scss'
 
-export default function FormButton({ text, isLoading }) {
+export default function SubmitButton({ text, isLoading }) {
   const className = `${styles.formButton} ${
     isLoading ? styles.formButtonLoading : ''
   }`

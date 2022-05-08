@@ -1,13 +1,14 @@
 import { useState } from 'react'
-import useStandupsApi from '../../hooks/useStandupsApi'
 
-import { IStandupItem, ItemStatus } from '../../types'
-import ActionWrapper from '../action-wrapper/ActionWrapper'
-import FormInput from '../form-input/FormInput'
+import ActionWrapper from '../../action-wrapper'
+import FormInput from '../../forms/input'
 
-import styles from './EditableStandupItem.module.scss'
+import { IStandupItem, ItemStatus } from '../../../types'
+import useStandupsApi from '../../../hooks/useStandupsApi'
 
-export default function EditableStandupItem({ standupId, item, items }) {
+import styles from './Item.module.scss'
+
+export default function StandupItem({ standupId, item, items }) {
   const [editableFields, setEditableFields] = useState({
     description: item.description,
     status: item.status,
