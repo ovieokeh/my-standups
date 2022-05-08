@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react'
 import Form from '../../components/forms/Form'
 import Summary from '../../components/summary/Summary'
-import { IStandups } from '../../types'
 import mock from '../../mock'
 
 import styles from './Dashboard.module.scss'
+import useStandupsApi from '../../hooks/useStandupsApi'
 
 const today = new Date()
 const yesterday = new Date(today)
@@ -16,7 +15,7 @@ const profile = {
 }
 
 export default function Dashboard() {
-  const [standups, setStandups] = useState({})
+  const { data: standups = {} } = useStandupsApi()
 
   // useEffect(() => {
   //   const seedDatabase = async () => {
@@ -28,7 +27,7 @@ export default function Dashboard() {
   //           method: 'POST',
   //           body: JSON.stringify(standup)
   //         })
-  
+
   //         return response
   //       })
   //     })
@@ -38,40 +37,6 @@ export default function Dashboard() {
 
   //   seedDatabase()
   // }, [])
-
-  useEffect(() => {
-    const fetchStandups = async () => {
-      const response = await fetch('http://localhost:3000/api/standups')
-      const { data } = await response.json()
-
-      const processData = (data: IStandups) => {
-        const sortedByDate = data.reduce((acc, currentStandup) => {
-          const dateToKey = new Date(currentStandup.createdAt).toLocaleDateString()
-
-          if (acc[dateToKey]) {
-            acc[dateToKey] = [
-              ...acc[dateToKey],
-              currentStandup
-            ]
-          } else {
-            acc[dateToKey] = [
-              currentStandup
-            ]
-          }
-
-          return acc
-        }, {})
-
-        return sortedByDate
-      }
-
-      const formattedData = processData(data)
-      console.log(formattedData)
-      setStandups(formattedData)
-    }
-
-    fetchStandups()
-  }, [])
 
   const todaysStandups = standups[profile.date]
   const previousDayStandups = standups[yesterday.toLocaleDateString()]

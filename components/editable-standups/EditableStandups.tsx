@@ -1,7 +1,7 @@
-import { useState } from "react"
+import { useState } from 'react'
 
-import EditableStandupItems from "../editable-standup-items/EditableStandupItems"
-import FormInput from "../form-input/FormInput"
+import EditableStandupItems from '../editable-standup-items/EditableStandupItems'
+import FormInput from '../form-input/FormInput'
 
 import styles from './EditableStandups.module.scss'
 
@@ -10,7 +10,7 @@ export default function EditableStandups({ standups }) {
     return standups.reduce((acc, currentStandup) => {
       return {
         ...acc,
-        [currentStandup._id]: currentStandup.name
+        [currentStandup._id]: currentStandup.name,
       }
     }, {})
   })
@@ -18,7 +18,7 @@ export default function EditableStandups({ standups }) {
   const handleStandupName = (id, value) => {
     setStandupsName((prevStandupsName) => ({
       ...prevStandupsName,
-      [id]: value
+      [id]: value,
     }))
   }
 
@@ -30,7 +30,10 @@ export default function EditableStandups({ standups }) {
           handleChange={(event) => handleStandupName(_id, event.target.value)}
         />
 
-        <EditableStandupItems standups={standups} items={items.map((item) => ({ ...item, standupId: _id }))} />
+        <EditableStandupItems
+          standups={standups}
+          items={items.map((item) => ({ ...item, standupId: _id }))}
+        />
       </div>
     )
   })

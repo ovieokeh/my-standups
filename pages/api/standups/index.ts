@@ -9,6 +9,7 @@ export default async function getAllStandupsHandler(
   const [client, collection] = await getDbClient()
 
   try {
+    await client.connect()
     const standups = await getAllStandups(collection)
     await client.close()
     response.status(200).json({ data: standups })

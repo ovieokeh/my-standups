@@ -5,7 +5,6 @@ export default function NewItemForm({ handleSubmit }) {
   const [ticketId, setTicketId] = useState('')
 
   const onSubmit = (event) => {
-    console.log(event)
     event.preventDefault()
 
     handleSubmit({ ticketId, summaryItems: [] })

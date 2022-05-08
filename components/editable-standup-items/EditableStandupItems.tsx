@@ -1,9 +1,6 @@
-import { useState } from "react"
+import { useState } from 'react'
 
-import ActionWrapper from "../action-wrapper/ActionWrapper"
-import FormInput from "../form-input/FormInput"
-
-import { ItemStatus } from "../../types"
+import EditableStandupItem from '../editable-standup-item/EditableStandupItem'
 
 import styles from './EditableStandupItems.module.scss'
 
@@ -16,13 +13,13 @@ export default function EditableStandupItems({ standups, items }) {
           [`${currentStandup._id}${currentItem.id}`]: {
             description: currentItem.description,
             status: currentItem.status,
-          }
+          },
         }
       }, {})
 
       return {
         ...acc,
-        ...standupItems
+        ...standupItems,
       }
     }, {})
   })
@@ -32,33 +29,25 @@ export default function EditableStandupItems({ standups, items }) {
       ...prevItemsState,
       [id]: {
         ...prevItemsState[id],
-        [field]: value
-      }
+        [field]: value,
+      },
     }))
   }
 
   return items.map(({ standupId, id, description, status }) => {
     const combinedIds = `${standupId}${id}`
     const editableFields = itemsState[combinedIds]
-    const isComplete = status === ItemStatus.Done
-    const itemClassname = `${styles.formItemGroup} ${
-      isComplete ? styles.formItemGroupCompleted : ''
-    }`.trim()
-
-    if (!editableFields) {
-      console.log(combinedIds, description, editableFields)
-    }
 
     return (
-      <ActionWrapper key={id} isComplete={isComplete}>
-        <div className={itemClassname}>
-          <FormInput
-            type="textarea"
-            value={editableFields?.description}
-            handleChange={(event) => handleItemChange(combinedIds, 'description', event.target.value)}
-          />
-        </div>
-      </ActionWrapper>
+      <EditableStandupItem
+        key={combinedIds}
+        id={combinedIds}
+        status={status}
+        editableFields={editableFields}
+        handleChange={(event) =>
+          handleItemChange(combinedIds, 'description', event.target.value)
+        }
+      />
     )
   })
 }

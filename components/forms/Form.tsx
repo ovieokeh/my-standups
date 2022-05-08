@@ -9,7 +9,7 @@ type FormProps = {
   standups: IStandups
 }
 
-export default function Form({ standups } : FormProps) {
+export default function Form({ standups }: FormProps) {
   if (!standups?.length) {
     return <NewItemForm handleSubmit={() => {}} />
   }

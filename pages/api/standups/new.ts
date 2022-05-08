@@ -10,11 +10,13 @@ export default async function createStandup(
   const [client, collection] = await getDbClient()
 
   try {
+    await client.connect()
+
     const standup = await addStandup(
       JSON.parse(request.body) as IStandup,
       collection
     )
-    // await client.close()
+    await client.close()
 
     response.status(201).json({
       message: 'standup created successfully',

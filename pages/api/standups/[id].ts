@@ -15,6 +15,7 @@ export default async function updateStandup(
   const [client, collection] = await getDbClient()
 
   try {
+    await client.connect()
     const {
       method,
       query: { id },
@@ -47,7 +48,7 @@ export default async function updateStandup(
       PUT: async () => {
         try {
           const result = await modifyStandup(
-            JSON.parse(request.body) as IStandup,
+            JSON.parse(body) as IStandup,
             standup,
             collection
           )

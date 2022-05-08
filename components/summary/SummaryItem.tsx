@@ -1,4 +1,4 @@
-import { IStandupItem, ItemStatus } from "../../types"
+import { IStandupItem, ItemStatus } from '../../types'
 
 import styles from './Summary.module.scss'
 

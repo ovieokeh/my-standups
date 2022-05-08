@@ -8,6 +8,11 @@
     text-decoration: line-through;
   }
 
+  &Pending * {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
   &Content {
     width: 400px;
   }
