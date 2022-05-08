@@ -1,0 +1,13 @@
+.eStandup {
+  background: #fafcff;
+  border-radius: 8px;
+  margin: 16px 0;
+
+  &Completed {
+    background: #15d2a60a;
+  }
+
+  &Content {
+    padding: 8px 16px;
+  }
+}

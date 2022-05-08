@@ -1,27 +1,46 @@
 .formInput {
+  background: none;
   display: inline-block;
-  font-size: 16px;
-  border: none;
+  font-size: 18px;
+  border: 1px solid transparent;
   border-radius: 4px;
-  margin: 8px;
+  margin: 8px 8px 8px 0;
   padding: 8px;
+  width: 100%;
 
   &:hover {
-    background: #f3f3f3;
+    background: #f9fbfe;
+  }
+
+  &Invert:hover {
+    background: transparent;
+    border-color: white;
   }
 }
 
 .formTextarea {
-  display: block;
+  background: none;
+  display: inline-block;
   font-family: inherit;
   font-size: 16px;
   border: none;
+  border: 1px solid transparent;
   border-radius: 4px;
-  margin: 8px;
+  margin-right: 8px;
   padding: 8px;
   width: 90%;
 
+  &Invert {
+    padding: 8px 16px;
+    background: white;
+  }
+
   &:hover {
-    background: #f3f3f3;
+    border: 1px solid #1763bb;
+    background: white;
+  }
+
+  &:focus {
+    background: white;
   }
 }

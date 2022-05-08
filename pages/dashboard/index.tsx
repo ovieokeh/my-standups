@@ -2,8 +2,10 @@ import Form from '../../components/forms/Form'
 import Summary from '../../components/summary/Summary'
 import mock from '../../mock'
 
-import styles from './Dashboard.module.scss'
 import useStandupsApi from '../../hooks/useStandupsApi'
+import useSyncPendingItems from '../../hooks/useSyncPendingItems'
+
+import styles from './Dashboard.module.scss'
 
 const today = new Date()
 const yesterday = new Date(today)
@@ -14,32 +16,36 @@ const profile = {
   date: today.toLocaleDateString(),
 }
 
+const seedDatabase = async () => {
+  const promises = [...Object.values(mock)].map(async (standups) => {
+    return standups.map(async (standup) => {
+      const response = await fetch('http://localhost:3000/api/standups', {
+        method: 'POST',
+        body: JSON.stringify(standup),
+      })
+
+      return response
+    })
+  })
+
+  await Promise.all(promises)
+}
+
+// seedDatabase()
+
 export default function Dashboard() {
-  const { data: standups = {} } = useStandupsApi()
-
-  // useEffect(() => {
-  //   const seedDatabase = async () => {
-  //     console.log(...Object.values(mock))
-  //     const promises = [...Object.values(mock)].map(standups => {
-  //       return standups.map(async (standup) => {
-  //         console.log({ standup })
-  //         const response = await fetch('http://localhost:3000/api/standups/new', {
-  //           method: 'POST',
-  //           body: JSON.stringify(standup)
-  //         })
-
-  //         return response
-  //       })
-  //     })
-
-  //     await Promise.all(promises)
-  //   }
-
-  //   seedDatabase()
-  // }, [])
+  const { data: standups = {}, mutate } = useStandupsApi()
 
   const todaysStandups = standups[profile.date]
   const previousDayStandups = standups[yesterday.toLocaleDateString()]
+
+  useSyncPendingItems({ todaysStandups, previousDayStandups, mutate })
+
+  todaysStandups?.sort((a, b) => {
+    if (a.createdAt < b.createdAt) return 1
+    if (a.createdAt > b.createdAt) return -1
+    return 0
+  })
 
   return (
     <div className={styles.dashboard}>
@@ -60,14 +66,3 @@ export default function Dashboard() {
     </div>
   )
 }
-
-// export async function getServerSideProps(context) {
-//   const standups = await fetch('http://localhost:3000/api/standups')
-//   console.log(standups)
-
-//   return {
-//     props: {
-//       standups
-//     }, // will be passed to the page component as props
-//   }
-// }

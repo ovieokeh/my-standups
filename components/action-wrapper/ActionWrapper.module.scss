@@ -3,9 +3,12 @@
   align-items: center;
   width: 100%;
 
-  &Disabled * {
-    opacity: 0.7;
-    text-decoration: line-through;
+  &Complete {
+    * {
+      opacity: 0.7;
+
+      text-decoration: line-through;
+    }
   }
 
   &Pending * {
@@ -27,4 +30,11 @@
       cursor: pointer;
     }
   }
+}
+
+.awIsHeader {
+  background: #e0eeff;
+}
+.awIsHeader.awComplete {
+  background: #68cbb7;
 }

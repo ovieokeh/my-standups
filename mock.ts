@@ -1,53 +1,50 @@
 import { IStandups, ItemStatus } from './types'
 
-const items: { [id: string]: IStandups } = {
+const items: { [_id: string]: IStandups } = {
   '05/8/2022': [
     {
-      _id: '1',
       name: 'GO-190',
       createdAt: 1651960800000,
       items: [
         {
-          id: '1',
+          createdAt: new Date(1651960800000 - 100).getTime(),
           description: 'Passed regression test',
           status: ItemStatus.Done,
         },
         {
-          id: '2',
-          description: 'Need to resolve a session timed out issue',
+          createdAt: new Date(1651960800000 - 200).getTime(),
+          description: 'Need to resolve a session',
           status: ItemStatus.Done,
         },
       ],
     },
     {
-      _id: '2',
       name: 'GO-188',
       createdAt: 1651960800000 - 10000,
       items: [
         {
-          id: '3',
+          createdAt: new Date(1651960800000 - 10000 - 100).getTime(),
           description: 'Is now ready for testing',
           status: ItemStatus.Done,
         },
       ],
     },
     {
-      _id: '3',
       name: 'GO-187',
       createdAt: 1651960800000 - 20000,
       items: [
         {
-          id: '4',
+          createdAt: new Date(1651960800000 - 20000 - 100).getTime(),
           description: 'Ready for review',
           status: ItemStatus.Done,
         },
         {
-          id: '5',
+          createdAt: new Date(1651960800000 - 20000 - 200).getTime(),
           description: 'Only tests are left',
           status: ItemStatus.Pending,
         },
         {
-          id: '6',
+          createdAt: new Date(1651960800000 - 20000 - 300).getTime(),
           description: 'Will work on it with Tazkia today',
           status: ItemStatus.Pending,
         },
@@ -56,51 +53,48 @@ const items: { [id: string]: IStandups } = {
   ],
   '05/07/2022': [
     {
-      _id: '4',
       name: 'GO-190',
       createdAt: 1651874400000,
       items: [
         {
-          id: '7',
+          createdAt: new Date(1651874400000 - 100).getTime(),
           description: "Waiting for Pragathi's regression test",
           status: ItemStatus.Done,
         },
       ],
     },
     {
-      _id: '5',
       name: 'GO-188',
       createdAt: 1651874400000 - 11000,
       items: [
         {
-          id: '8',
+          createdAt: new Date(1651874400000 - 11000 - 100).getTime(),
           description: 'Is now ready for testing',
           status: ItemStatus.Pending,
         },
         {
-          id: '9',
+          createdAt: new Date(1651874400000 - 11000 - 200).getTime(),
           description: 'Still needs one more approval',
           status: ItemStatus.Pending,
         },
       ],
     },
     {
-      _id: '6',
       name: 'GO-187',
       createdAt: 1651874400000 - 12000,
       items: [
         {
-          id: '10',
+          createdAt: new Date(1651874400000 - 12000 - 100).getTime(),
           description: 'Ready for review',
           status: ItemStatus.Pending,
         },
         {
-          id: '11',
+          createdAt: new Date(1651874400000 - 12000 - 200).getTime(),
           description: 'Only tests are left',
           status: ItemStatus.Pending,
         },
         {
-          id: '12',
+          createdAt: new Date(1651874400000 - 12000 - 300).getTime(),
           description: 'Will work on it with Tazkia today',
           status: ItemStatus.Pending,
         },

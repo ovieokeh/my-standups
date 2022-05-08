@@ -1,0 +1,23 @@
+.formButton {
+  display: inline-block;
+  background: white;
+  color: #1763bb;
+  border-style: none;
+  border: 1px solid #1763bb;
+  border-radius: 4px;
+  height: 32px;
+  padding: 2px 16px;
+  width: 100%;
+  max-width: fit-content;
+
+  &Loading {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  &:hover {
+    cursor: pointer;
+    color: white;
+    background: #1763bb;
+  }
+}

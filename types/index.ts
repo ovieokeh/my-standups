@@ -1,23 +1,24 @@
+import { Types } from 'mongoose'
+
 interface IUser {
   name: string
 }
 
 interface IStandup {
   _id?: string
+  createdAt?: number
   name: string
-  createdAt: number
   items: IStandupItem[]
 }
 
 export enum ItemStatus {
-  Initial = 'Initial',
-  Done = 'Done',
   Pending = 'Pending',
-  Invalid = 'Invalid',
+  Done = 'Done',
 }
 
 interface IStandupItem {
-  id?: string
+  _id?: string
+  createdAt?: number
   description: string
   status: keyof typeof ItemStatus
 }

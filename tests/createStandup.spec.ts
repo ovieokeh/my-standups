@@ -1,5 +1,5 @@
 import { IStandup } from '../types'
-import { makeRequest } from '../utils'
+import { makeRequest, prepareResponseForAssertion } from '../utils'
 import { mockStandup } from './mock'
 
 describe('/api/createStandupHandler', () => {
@@ -13,10 +13,6 @@ describe('/api/createStandupHandler', () => {
     const standup = data.standup as IStandup
 
     expect(statusCode).toBe(201)
-    expect(standup).toEqual(
-      expect.objectContaining({
-        ...mockStandup,
-      })
-    )
+    expect(standup).toEqual(prepareResponseForAssertion(standup))
   })
 })

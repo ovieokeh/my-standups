@@ -1,4 +1,4 @@
-import NewItemForm from './NewItemForm'
+import NewItemForm from './new-standup/NewStandupForm'
 import EditableStandups from '../editable-standups/EditableStandups'
 
 import { IStandups } from '../../types'
@@ -11,13 +11,13 @@ type FormProps = {
 
 export default function Form({ standups }: FormProps) {
   if (!standups?.length) {
-    return <NewItemForm handleSubmit={() => {}} />
+    return <NewItemForm />
   }
 
   return (
     <div className={styles.form}>
+      <NewItemForm />
       <EditableStandups standups={standups} />
-      <NewItemForm handleSubmit={() => {}} />
     </div>
   )
 }

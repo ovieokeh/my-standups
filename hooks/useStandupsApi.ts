@@ -2,7 +2,7 @@ import useSWR from 'swr'
 
 import { IStandups } from '../types'
 
-const processData = (data: IStandups) => {
+const processData = (data: IStandups): { [id: string]: IStandups } => {
   const sortedByDate = data.reduce((acc, currentStandup) => {
     const dateToKey = new Date(currentStandup.createdAt).toLocaleDateString()
 
@@ -28,6 +28,10 @@ const fetcher = (url) => {
 }
 
 export default function useStandupsApi() {
-  const { data, error, mutate } = useSWR('/api/standups', fetcher)
+  const { data, error, mutate } = useSWR<{ [id: string]: IStandups }>(
+    '/api/standups',
+    fetcher,
+    { shouldRetryOnError: false }
+  )
   return { data, error, mutate }
 }

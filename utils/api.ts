@@ -1,10 +1,5 @@
-import {
-  Collection,
-  Document,
-  MongoClient,
-  ObjectId,
-  UpdateResult,
-} from 'mongodb'
+import { NextApiRequest, NextApiResponse } from 'next'
+import { mongo } from 'mongoose'
 import {
   createMocks as _createMocks,
   Mocks,
@@ -12,12 +7,11 @@ import {
   ResponseOptions,
 } from 'node-mocks-http'
 
-import { setupClient } from './client'
-import getAllStandupsHandler from '../pages/api/standups'
-import createStandupHandler from '../pages/api/standups/new'
-import updateStandupHandler from '../pages/api/standups/[id]'
-import { IStandup } from '../types'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { setupMongooseClient, StandupItemModel, StandupModel } from './client'
+import standupsIndexHandler from '../pages/api/standups'
+import standupHandler from '../pages/api/standups/[id]'
+import { IStandup, IStandupItem } from '../types'
+import { DeleteResult } from 'mongodb'
 
 class ValidationError extends Error {
   message: string
@@ -31,84 +25,64 @@ class ValidationError extends Error {
   }
 }
 
-export const getDbClient = async (): Promise<
-  [MongoClient, Collection<IStandup>]
-> => {
-  const client = setupClient()
-  const collection = client.db('my-standups').collection<IStandup>('standup')
-  await client.connect()
-  return [client, collection]
-}
-
-export const getAllStandups = async (
-  collection: Collection<IStandup>
-): Promise<IStandup[]> => {
-  const result = await collection.find({}).toArray()
+export const getAllStandups = async (): Promise<IStandup[]> => {
+  const result = await StandupModel.find()
   return result
 }
 
-export const getStandup = async (
-  _id: string,
-  collection: Collection<IStandup>
-): Promise<IStandup> => {
-  let idToUse: any = _id
-
-  if (!(idToUse instanceof ObjectId)) {
-    idToUse = new ObjectId(_id)
-  }
-
-  const result = await collection.findOne({ _id: idToUse as string })
+export const getStandup = async (id: string): Promise<IStandup> => {
+  const result = await StandupModel.findById(id).exec()
   return result
 }
 
-export const addStandup = async (
-  { name, createdAt, items }: IStandup,
-  collection: Collection<IStandup>
-): Promise<IStandup> => {
-  if (!createdAt || !items || !items?.length) {
+export const addStandup = async ({
+  name,
+  items,
+  createdAt,
+}: IStandup): Promise<IStandup> => {
+  if (!name || !items) {
     throw new ValidationError(
-      'one or more required fields is missing or items is empty'
+      'one or more required fields is missing (name|items)'
     )
   }
 
-  if (!items || !items?.length) {
-    throw new ValidationError('invalid items provided')
-  }
-
-  let result: IStandup
-  const { insertedId } = await collection.insertOne({
+  const standup = await StandupModel.create<IStandup>({
     name,
-    createdAt,
     items,
+    createdAt,
   })
 
-  result = await getStandup(insertedId, collection)
-  return result
+  return standup
 }
 
 export const modifyStandup = async (
-  { items }: IStandup,
   currentStandup: IStandup,
-  collection: Collection<IStandup>
-): Promise<Document | UpdateResult> => {
-  if (!items || !items?.length) {
-    throw new Error('invalid items provided')
-  }
+  newStandup: IStandupItem
+): Promise<IStandup> => {
+  await StandupModel.findByIdAndUpdate(currentStandup._id, newStandup).exec()
 
-  let result = await collection.replaceOne(currentStandup, {
-    ...currentStandup,
-    items,
-  })
-
-  result = await getStandup(currentStandup._id, collection)
-  return result
+  const modifiedStandup = await getStandup(currentStandup._id)
+  return modifiedStandup
 }
 
-export const deleteStandup = async (
-  _id: string,
-  collection: Collection<IStandup>
-): Promise<Document | UpdateResult> => {
-  const result = await collection.deleteOne({ _id })
+export const addStandupItem = async (
+  currentStandup: IStandup,
+  newItem: IStandupItem
+): Promise<IStandup> => {
+  const createNewItem = await StandupItemModel.create<IStandupItem>(newItem)
+  createNewItem['__v'] = undefined
+  const newItems = [...currentStandup.items, createNewItem]
+
+  await StandupModel.findByIdAndUpdate(currentStandup._id, {
+    items: newItems,
+  }).exec()
+
+  const modifiedStandup = await getStandup(currentStandup._id)
+  return modifiedStandup
+}
+
+export const deleteStandup = async (_id: string): Promise<DeleteResult> => {
+  const result = await StandupModel.findByIdAndDelete(_id).exec()
   return result
 }
 
@@ -125,23 +99,33 @@ export const makeRequest = async (method, query = {}, body = {}) => {
   })
 
   if (method === 'TEARDOWN') {
-    const [client, collection] = await getDbClient()
-    await collection.deleteMany({})
-    await client.close()
+    const { disconnect } = await setupMongooseClient()
+    await StandupModel.deleteMany({}).exec()
+    await StandupItemModel.deleteMany({}).exec()
+    await disconnect()
+    console.log('teardown complete')
 
-    console.info('teardown complete')
     return [200, true]
   }
 
   const methodMapping = {
-    GET: Object.keys(query).length
-      ? updateStandupHandler
-      : getAllStandupsHandler,
-    DELETE: updateStandupHandler,
-    PUT: updateStandupHandler,
-    POST: createStandupHandler,
+    GET: Object.keys(query).length ? standupHandler : standupsIndexHandler,
+    POST: standupsIndexHandler,
+    DELETE: standupHandler,
+    PUT: standupHandler,
   }
 
   await methodMapping[method](req, res)
   return [res._getStatusCode(), JSON.parse(res._getData())]
 }
+
+export const prepareResponseForAssertion = (data: IStandup) => ({
+  ...data,
+  __v: expect.any(Number),
+  _id: expect.any(String),
+  items: data.items.map((item) => ({
+    _id: expect.any(String),
+    createdAt: expect.any(String),
+    ...item,
+  })),
+})

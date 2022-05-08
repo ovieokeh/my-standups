@@ -1,27 +1,27 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import {
-  getDbClient,
+  setupMongooseClient,
   getStandup,
   modifyStandup,
   deleteStandup,
-} from '../../../utils/'
-import { IStandup } from '../../../types'
+  addStandupItem,
+} from '../../../utils'
+import { IStandup, IStandupItem } from '../../../types'
 
-export default async function updateStandup(
+export default async function standupHandler(
   request: NextApiRequest,
   response: NextApiResponse
 ) {
-  const [client, collection] = await getDbClient()
+  await setupMongooseClient()
 
   try {
-    await client.connect()
     const {
       method,
       query: { id },
       body,
     } = request
-    const standup = await getStandup(id as string, collection)
+    const standup = await getStandup(id as string)
 
     if (!standup) {
       return response.status(404).json({
@@ -47,11 +47,15 @@ export default async function updateStandup(
       },
       PUT: async () => {
         try {
-          const result = await modifyStandup(
-            JSON.parse(body) as IStandup,
-            standup,
-            collection
-          )
+          const parsedBody = JSON.parse(body)
+          let action: any =
+            parsedBody.action === 'update' ? modifyStandup : addStandupItem
+          let payload: any =
+            parsedBody.action === 'update'
+              ? parsedBody
+              : (parsedBody.item as IStandupItem)
+
+          const result = await action(standup, { ...payload })
           response.status(200).json(result)
         } catch (error) {
           let statusCode = 500
@@ -63,8 +67,8 @@ export default async function updateStandup(
       },
       DELETE: async () => {
         try {
-          await deleteStandup(standup._id, collection)
-          response.status(204)
+          await deleteStandup(standup._id)
+          response.status(204).send({})
         } catch (error) {
           response.status(500).json(error)
         }
@@ -79,7 +83,6 @@ export default async function updateStandup(
     }
 
     await methodAction()
-    await client.close()
   } catch (error) {
     response.status(500).json({
       message: 'an error occurred',

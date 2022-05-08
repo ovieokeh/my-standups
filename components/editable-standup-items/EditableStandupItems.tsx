@@ -1,53 +1,33 @@
-import { useState } from 'react'
+import { Fragment } from 'react'
 
 import EditableStandupItem from '../editable-standup-item/EditableStandupItem'
+import { ItemStatus } from '../../types'
 
-import styles from './EditableStandupItems.module.scss'
-
-export default function EditableStandupItems({ standups, items }) {
-  const [itemsState, setItemsState] = useState(() => {
-    return standups.reduce((acc, currentStandup) => {
-      const standupItems = currentStandup.items.reduce((acc2, currentItem) => {
-        return {
-          ...acc2,
-          [`${currentStandup._id}${currentItem.id}`]: {
-            description: currentItem.description,
-            status: currentItem.status,
-          },
-        }
-      }, {})
-
-      return {
-        ...acc,
-        ...standupItems,
-      }
-    }, {})
+export default function EditableStandupItems({ standupId, items }) {
+  items.sort((a, b) => {
+    if (a.createdAt < b.createdAt) return 1
+    if (a.createdAt > b.createdAt) return -1
+    return 0
   })
 
-  const handleItemChange = (id, field, value) => {
-    setItemsState((prevItemsState) => ({
-      ...prevItemsState,
-      [id]: {
-        ...prevItemsState[id],
-        [field]: value,
-      },
-    }))
-  }
+  items.sort((a) => {
+    if (a.status === ItemStatus.Done) return 1
+    if (a.status === ItemStatus.Pending) return -1
+    return 0
+  })
 
-  return items.map(({ standupId, id, description, status }) => {
-    const combinedIds = `${standupId}${id}`
-    const editableFields = itemsState[combinedIds]
+  const renderedStandupItems = items.map((item) => {
+    const combinedIds = `${standupId}${item._id}`
 
     return (
       <EditableStandupItem
         key={combinedIds}
-        id={combinedIds}
-        status={status}
-        editableFields={editableFields}
-        handleChange={(event) =>
-          handleItemChange(combinedIds, 'description', event.target.value)
-        }
+        standupId={standupId}
+        item={item}
+        items={items}
       />
     )
   })
+
+  return renderedStandupItems.length ? renderedStandupItems : null
 }

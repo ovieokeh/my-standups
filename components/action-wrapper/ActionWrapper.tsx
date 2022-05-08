@@ -5,26 +5,35 @@ export default function ActionWrapper({
   isComplete,
   state,
   handleDelete,
+  handleToggle = () => {},
+  actions = ['delete', 'toggle'],
+  isHeader = false,
 }) {
-  const className = `${styles.aw} ${
-    isComplete ? styles.awDisabled : state === 'pending' ? styles.awPending : ''
+  const className = `${styles.aw} ${isHeader ? styles.awIsHeader : ''} ${
+    isComplete ? styles.awComplete : state === 'pending' ? styles.awPending : ''
   }`.trim()
 
   return (
     <div className={className}>
-      <button type="button" className={styles.awAction} onClick={handleDelete}>
-        −
-      </button>
+      {actions.includes('delete') && (
+        <button
+          type="button"
+          className={styles.awAction}
+          onClick={handleDelete}
+        >
+          −
+        </button>
+      )}
 
       <div className={styles.awContent}>{children}</div>
 
-      <button type="button" className={styles.awAction}>
-        {isComplete ? '♺' : '✓'}
-      </button>
-
-      {!isComplete && (
-        <button type="button" className={styles.awAction}>
-          ＋
+      {actions.includes('toggle') && (
+        <button
+          type="button"
+          onClick={handleToggle}
+          className={styles.awAction}
+        >
+          {isComplete ? '♺' : '✓'}
         </button>
       )}
     </div>

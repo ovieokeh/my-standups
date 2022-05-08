@@ -1,28 +1,36 @@
-// Credit: https://www.mongodb.com/developer/how-to/nextjs-with-mongodb/
-import { MongoClient } from 'mongodb'
+import mongoose, { Mongoose } from 'mongoose'
 import 'dotenv/config'
 
-export const setupClient = () => {
+import { IStandup, IStandupItem } from '../types'
+
+mongoose.Promise = global.Promise || mongoose.Promise
+const { Schema } = mongoose
+
+const itemSchema = new Schema({
+  description: String,
+  status: String,
+  createdAt: { type: Date, default: Date.now },
+})
+
+export const StandupItemModel =
+  mongoose.models['StandupItem'] ||
+  mongoose.model<IStandupItem>('StandupItem', itemSchema)
+
+const standupSchema = new Schema({
+  name: String,
+  createdAt: { type: Date, default: Date.now },
+  items: [itemSchema],
+})
+
+export const StandupModel =
+  mongoose.models['Standup'] ||
+  mongoose.model<IStandup>('Standup', standupSchema)
+
+export const setupMongooseClient = async (): Promise<Mongoose> => {
   const env = process.env.NODE_ENV
   const uri =
     env === 'test' ? process.env.databaseUrlTest : process.env.databaseUrl
-  const options = {}
 
-  let client: MongoClient
-
-  if (!uri) {
-    throw new Error('Please add your Mongo URI to .env.local')
-  }
-
-  if (env === 'development') {
-    if (!global._mongoClientPromise) {
-      global._mongoClientPromise = new MongoClient(uri, options)
-    }
-
-    client = global._mongoClientPromise
-  } else {
-    client = new MongoClient(uri, options)
-  }
-
+  const client = await mongoose.connect(uri)
   return client
 }

@@ -1,21 +1,54 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { IStandup } from '../../../types'
 
-import { getDbClient, getAllStandups } from '../../../utils'
+import { setupMongooseClient, getAllStandups, addStandup } from '../../../utils'
 
-export default async function getAllStandupsHandler(
-  _: NextApiRequest,
+export default async function standupsIndexHandler(
+  request: NextApiRequest,
   response: NextApiResponse
 ) {
-  const [client, collection] = await getDbClient()
-
+  await setupMongooseClient()
   try {
-    await client.connect()
-    const standups = await getAllStandups(collection)
-    await client.close()
-    response.status(200).json({ data: standups })
+    const methodMapping = {
+      GET: async () => {
+        try {
+          const standups = await getAllStandups()
+          response.status(200).json({ data: standups })
+        } catch (error) {
+          response.status(500).json({
+            message: error.message,
+            error,
+          })
+        }
+      },
+      POST: async () => {
+        try {
+          const standup = await addStandup(JSON.parse(request.body) as IStandup)
+
+          response.status(201).json({
+            message: 'standup created successfully',
+            standup,
+          })
+        } catch (error) {
+          response.status(error.statusCode || 500).json({
+            message: 'an error occurred',
+            error,
+          })
+        }
+      },
+    }
+
+    const methodAction = methodMapping[request.method]
+    if (!methodAction) {
+      return response.status(400).json({
+        message: 'invalid method',
+      })
+    }
+
+    await methodAction()
   } catch (error) {
     response.status(500).json({
-      message: error.message,
+      message: 'an error occurred',
       error,
     })
   }

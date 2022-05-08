@@ -7,14 +7,13 @@
   &Content {
     display: grid;
     grid-template-columns: 60% 40%;
-    gap: 36px;
-    // flex-wrap: wrap;
-    // gap: 25%;
-    // width: 100%;
-    
+    gap: 16px;
+
     & > div {
-      margin-bottom: 15%;
       flex: auto;
+      padding: 8px;
+      max-height: 80vh;
+      overflow: hidden;
     }
   }
 }
