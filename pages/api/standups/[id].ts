@@ -68,7 +68,7 @@ export default async function standupHandler(
       DELETE: async () => {
         try {
           await deleteStandup(standup._id)
-          response.status(204).send({})
+          response.status(204).end()
         } catch (error) {
           response.status(500).json(error)
         }

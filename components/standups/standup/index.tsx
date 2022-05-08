@@ -19,6 +19,8 @@ export default function EditableStandup({ _id, name, items, canEdit = true }) {
     items.length && items.every((item) => item.status === ItemStatus.Done)
 
   const handleStandupDelete = async () => {
+    if (state === 'pending') return
+
     setState('pending')
     await fetch(`${window.location.origin}/api/standups/${_id}`, {
       method: 'DELETE',

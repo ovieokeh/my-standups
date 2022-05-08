@@ -17,9 +17,6 @@ export default function StandupItem({ standupId, item, items, canEdit }) {
   const { mutate } = useStandupsApi()
 
   const isComplete = item.status === ItemStatus.Done
-  const itemClassname = `${styles.eStandup} ${
-    isComplete ? styles.eStandupCompleted : ''
-  }`.trim()
 
   const handleItemUpdate = async (action: string, item: IStandupItem) => {
     let payload: any = { action: 'update' }
@@ -44,6 +41,7 @@ export default function StandupItem({ standupId, item, items, canEdit }) {
   }
 
   const handleDescriptionUpdate = async () => {
+    if (state === 'pending') return
     if (editableFields.description === item.description) return
 
     setState('pending')
@@ -55,6 +53,8 @@ export default function StandupItem({ standupId, item, items, canEdit }) {
   }
 
   const handleToggle = async () => {
+    if (state === 'pending') return
+
     setState('pending')
     await handleItemUpdate('edit', {
       ...item,
@@ -64,6 +64,8 @@ export default function StandupItem({ standupId, item, items, canEdit }) {
   }
 
   const handleItemDelete = async () => {
+    if (state === 'pending') return
+
     setState('pending')
     await handleItemUpdate('delete', item)
     setState('done')
