@@ -7,17 +7,27 @@
   border-radius: 4px;
   height: 32px;
   padding: 2px 16px;
-  width: 100%;
-  max-width: fit-content;
-
-  &Loading {
-    opacity: 0.7;
-    pointer-events: none;
-  }
 
   &:hover {
     cursor: pointer;
     color: white;
     background: #1763bb;
+  }
+
+  &Loading {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+}
+
+.formButtonPrimary {
+  width: 160px;
+  background: #1763bb;
+  color: aliceblue;
+
+  &:hover {
+    cursor: pointer;
+    color: #1763bb;
+    background: aliceblue;
   }
 }

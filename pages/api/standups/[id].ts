@@ -7,7 +7,7 @@ import {
   deleteStandup,
   addStandupItem,
 } from '../../../utils'
-import { IStandup, IStandupItem } from '../../../types'
+import { IStandupItem } from '../../../types'
 
 export default async function standupHandler(
   request: NextApiRequest,

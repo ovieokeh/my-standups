@@ -1,3 +1,4 @@
+import StandupForm from '../forms/standup'
 import Standup from './standup'
 
 import styles from './Standups.module.scss'
@@ -25,9 +26,14 @@ export default function Standups({
   )
 
   return (
-    <div className={styles.eStandups}>
-      {renderEditableStandups}
-      {renderCompletedStandups}
-    </div>
+    <section className={styles.eStandups}>
+      <h3>What will you do today?</h3>
+      <StandupForm />
+
+      <div className={styles.scrollContainer}>
+        {renderEditableStandups}
+        {renderCompletedStandups}
+      </div>
+    </section>
   )
 }

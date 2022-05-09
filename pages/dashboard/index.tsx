@@ -1,11 +1,11 @@
-import StandupForm from '../../components/forms/standup'
+import Layout from '../../components/layout'
 import Standups from '../../components/standups'
 import Summary from '../../components/summary'
 
 import useStandupsApi from '../../hooks/useStandupsApi'
 import useSyncPendingItems from '../../hooks/useSyncPendingItems'
-import mock from '../../mock'
 import { ItemStatus } from '../../types'
+import mock from '../../mock'
 
 import styles from './Dashboard.module.scss'
 
@@ -62,27 +62,20 @@ export default function Dashboard() {
   })
 
   return (
-    <div className={styles.dashboard}>
-      <h2 className={styles.dashboardTitle}>Welcome, {profile.name}</h2>
-      <p className={styles.dashboardDate}>{profile.date}</p>
+    <Layout>
+      <div className={styles.dashboard}>
+        <h2 className={styles.dashboardTitle}>Welcome, {profile.name}</h2>
+        <p className={styles.dashboardDate}>{profile.date}</p>
 
-      <div className={styles.dashboardContent}>
-        <section>
-          <h3>What will you do today?</h3>
-          <div>
-            <StandupForm />
-            <Standups
-              pendingStandups={pendingStandups}
-              completedStandups={completedStandups}
-            />
-          </div>
-        </section>
+        <div className={styles.dashboardContent}>
+          <Standups
+            pendingStandups={pendingStandups}
+            completedStandups={completedStandups}
+          />
 
-        <section>
-          <h3>Your previous day summary</h3>
           <Summary standups={previousDayStandups} />
-        </section>
+        </div>
       </div>
-    </div>
+    </Layout>
   )
 }

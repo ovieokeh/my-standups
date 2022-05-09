@@ -1,7 +1,6 @@
 .aw {
   display: flex;
   align-items: center;
-  width: 100%;
 
   &Complete {
     * {
@@ -17,7 +16,12 @@
   }
 
   &Content {
-    width: 400px;
+    width: 100%;
+
+    * {
+      font-size: 14px;
+      font-weight: bold;
+    }
   }
 
   &Action {
@@ -36,5 +40,5 @@
   background: #e0eeff;
 }
 .awIsHeader.awComplete {
-  background: #68cbb7;
+  background: #aff2e0;
 }

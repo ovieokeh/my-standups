@@ -1,5 +1,3 @@
-import { Types } from 'mongoose'
-
 interface IUser {
   name: string
 }

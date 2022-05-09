@@ -6,8 +6,6 @@ import FormInput from '../../forms/input'
 import { IStandupItem, ItemStatus } from '../../../types'
 import useStandupsApi from '../../../hooks/useStandupsApi'
 
-import styles from './Item.module.scss'
-
 export default function StandupItem({ standupId, item, items, canEdit }) {
   const [editableFields, setEditableFields] = useState({
     description: item.description,
@@ -40,34 +38,37 @@ export default function StandupItem({ standupId, item, items, canEdit }) {
     await mutate()
   }
 
-  const handleDescriptionUpdate = async () => {
-    if (state === 'pending') return
-    if (editableFields.description === item.description) return
-
-    setState('pending')
-    await handleItemUpdate('edit', {
-      ...item,
-      description: editableFields.description,
-    })
-    setState('done')
-  }
-
-  const handleToggle = async () => {
+  const handleUserAction = async (action: string) => {
     if (state === 'pending') return
 
-    setState('pending')
-    await handleItemUpdate('edit', {
-      ...item,
-      status: isComplete ? ItemStatus.Pending : ItemStatus.Done,
-    })
-    setState('done')
-  }
+    let method: string
+    let payload: any
+    if (action === 'delete') {
+      method = 'delete'
+      payload = item
+    }
 
-  const handleItemDelete = async () => {
-    if (state === 'pending') return
+    if (action === 'toggle') {
+      method = 'edit'
+      payload = {
+        ...item,
+        status: isComplete ? ItemStatus.Pending : ItemStatus.Done,
+      }
+    }
+
+    if (action === 'description') {
+      if (editableFields.description === item.description) return
+
+      method = 'edit'
+      payload = {
+        ...item,
+        description: editableFields.description,
+      }
+    }
 
     setState('pending')
-    await handleItemUpdate('delete', item)
+
+    await handleItemUpdate(method, payload)
     setState('done')
   }
 
@@ -85,14 +86,14 @@ export default function StandupItem({ standupId, item, items, canEdit }) {
       key={item._id}
       isComplete={isComplete}
       state={state}
-      handleDelete={handleItemDelete}
-      handleToggle={handleToggle}
+      handleDelete={() => handleUserAction('delete')}
+      handleToggle={() => handleUserAction('toggle')}
     >
       <FormInput
         type="textarea"
         value={editableFields.description}
         handleChange={handleDescriptionChange}
-        handleLoseFocus={handleDescriptionUpdate}
+        handleLoseFocus={() => handleUserAction('description')}
       />
     </ActionWrapper>
   )

@@ -1,19 +1,21 @@
 .dashboard {
   padding: 2rem;
   margin: 0 auto;
-  max-width: 800px;
-  width: 100%;
+  max-width: 1024px;
 
   &Content {
-    display: grid;
-    grid-template-columns: 60% 40%;
-    gap: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 80vh;
+    gap: 5%;
 
-    & > div {
-      flex: auto;
-      padding: 8px;
-      max-height: 80vh;
-      overflow: hidden;
+    section:first-child {
+      flex-grow: 1;
+      min-width: 60%;
+    }
+
+    section:nth-child(2) {
+      flex-grow: 1;
     }
   }
 }

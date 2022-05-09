@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { IStandup } from '../../../types'
 
+import { IStandup } from '../../../types'
 import { setupMongooseClient, getAllStandups, addStandup } from '../../../utils'
 
 export default async function standupsIndexHandler(
@@ -8,6 +8,7 @@ export default async function standupsIndexHandler(
   response: NextApiResponse
 ) {
   await setupMongooseClient()
+
   try {
     const methodMapping = {
       GET: async () => {

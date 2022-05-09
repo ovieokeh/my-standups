@@ -32,7 +32,11 @@ export default function StandupForm() {
         handleChange={(e) => setName(e.target.value)}
       />
 
-      <FormButton text="New standup" isLoading={state === 'pending'} />
+      <FormButton
+        text="New standup"
+        isLoading={state === 'pending'}
+        variant="primary"
+      />
     </form>
   )
 }

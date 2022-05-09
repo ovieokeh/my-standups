@@ -1,7 +1,12 @@
 .eStandup {
-  background: #fafcff;
+  background: #f2f8ff;
   border-radius: 8px;
   margin: 16px 0;
+  overflow: hidden;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
 
   &Completed {
     background: #15d2a60a;
@@ -10,4 +15,8 @@
   &Content {
     padding: 8px 16px;
   }
+}
+
+.eStandupCompleted .eStandupContent {
+  background: #ecfffb;
 }

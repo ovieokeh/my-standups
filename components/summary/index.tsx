@@ -28,6 +28,9 @@ export default function Summary({ standups = [] }: SummaryProps) {
   })
 
   return (
-    <section className={styles.summaryContainer}>{renderedStandups}</section>
+    <section className={styles.summaryContainer}>
+      <h3>Your previous day summary</h3>
+      {renderedStandups}
+    </section>
   )
 }

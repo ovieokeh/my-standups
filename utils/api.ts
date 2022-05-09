@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { mongo } from 'mongoose'
+import { DeleteResult } from 'mongodb'
 import {
   createMocks as _createMocks,
   Mocks,
@@ -7,11 +7,10 @@ import {
   ResponseOptions,
 } from 'node-mocks-http'
 
-import { setupMongooseClient, StandupItemModel, StandupModel } from './client'
 import standupsIndexHandler from '../pages/api/standups'
 import standupHandler from '../pages/api/standups/[id]'
+import { setupMongooseClient, StandupItemModel, StandupModel } from './client'
 import { IStandup, IStandupItem } from '../types'
-import { DeleteResult } from 'mongodb'
 
 class ValidationError extends Error {
   message: string
