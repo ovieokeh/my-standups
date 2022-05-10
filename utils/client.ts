@@ -1,5 +1,4 @@
 import mongoose, { Mongoose } from 'mongoose'
-import 'dotenv/config'
 
 import { IStandup, IStandupItem } from '../types'
 

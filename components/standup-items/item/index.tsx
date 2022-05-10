@@ -5,6 +5,7 @@ import FormInput from '../../forms/input'
 
 import { IStandupItem, ItemStatus } from '../../../types'
 import useStandupsApi from '../../../hooks/useStandupsApi'
+import { playsound } from '../../../utils'
 
 export default function StandupItem({ standupId, item, items, canEdit }) {
   const [editableFields, setEditableFields] = useState({
@@ -36,6 +37,8 @@ export default function StandupItem({ standupId, item, items, canEdit }) {
       body: JSON.stringify(payload),
     })
     await mutate()
+
+    playsound('delete')
   }
 
   const handleUserAction = async (action: string) => {

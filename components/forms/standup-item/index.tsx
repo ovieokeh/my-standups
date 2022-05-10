@@ -5,6 +5,7 @@ import FormInput from '../input'
 
 import useStandupsApi from '../../../hooks/useStandupsApi'
 import { ItemStatus } from '../../../types'
+import { playsound } from '../../../utils'
 
 import styles from './StandupItemForm.module.scss'
 
@@ -32,6 +33,7 @@ export default function StandupItemForm({
     await mutate()
     setNewItemDescription('')
     setState('done')
+    playsound('create')
   }
 
   return (

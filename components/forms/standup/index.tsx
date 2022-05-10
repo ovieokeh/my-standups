@@ -2,7 +2,9 @@ import { useState } from 'react'
 
 import FormButton from '../submit-button'
 import FormInput from '../input'
+
 import useStandupsApi from '../../../hooks/useStandupsApi'
+import { playsound } from '../../../utils/playsound'
 
 import styles from './StandupForm.module.scss'
 
@@ -22,6 +24,7 @@ export default function StandupForm() {
     await mutate()
     setName('')
     setState('done')
+    playsound('create')
   }
 
   return (

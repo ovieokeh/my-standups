@@ -7,6 +7,7 @@ import FormInput from '../../forms/input'
 
 import useStandupsApi from '../../../hooks/useStandupsApi'
 import { ItemStatus } from '../../../types'
+import { playsound } from '../../../utils'
 
 import styles from './Standup.module.scss'
 
@@ -27,6 +28,7 @@ export default function EditableStandup({ _id, name, items, canEdit = true }) {
     })
     setState('done')
     await mutate()
+    playsound('delete')
   }
 
   const className = `${styles.eStandup} ${

@@ -1216,11 +1216,6 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-dotenv@^16.0.0:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.0.tgz#c619001253be89ebb638d027b609c75c26e47411"
-  integrity sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q==
-
 electron-to-chromium@^1.4.118:
   version "1.4.132"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.132.tgz#b64599eb018221e52e2e4129de103b03a413c55d"
@@ -2193,7 +2188,7 @@ mongodb-connection-string-url@^2.5.2:
     "@types/whatwg-url" "^8.2.1"
     whatwg-url "^11.0.0"
 
-mongodb@4.5.0, mongodb@^4.5.0:
+mongodb@4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.5.0.tgz#d74c2008567b606dccef220f62a44cd7b934eb92"
   integrity sha512-A2l8MjEpKojnhbCM0MK3+UOGUSGvTNNSv7AkP1fsT7tkambrkkqN/5F2y+PhzsV0Nbv58u04TETpkaSEdI2zKA==
