@@ -9,7 +9,7 @@ export default function useSyncPendingItems({
 }) {
   const syncStandup = async (unsynced: IStandup[]) => {
     const promises = unsynced.map((standup) =>
-      fetch('${window.location.origin}/api/standups', {
+      fetch(`${window.location.origin}/api/standups`, {
         method: 'POST',
         body: JSON.stringify({
           ...standup,
