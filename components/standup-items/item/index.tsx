@@ -12,10 +12,25 @@ export default function StandupItem({ standupId, item, items, canEdit }) {
     description: item.description,
     status: item.status,
   })
-  const [state, setState] = useState('done')
+  const [state, setState] = useState('initial')
   const { mutate } = useStandupsApi()
 
   const isComplete = item.status === ItemStatus.Done
+
+  const playSound = async (action, updatedStandup) => {
+    if (updatedStandup.items.every((item) => item.status === ItemStatus.Done)) {
+      await playsound('finish')
+      return
+    }
+
+    if (action === 'toggle') {
+      isComplete ? await playsound('undo') : await playsound('edit')
+    }
+
+    if (action === 'delete') {
+      await playsound('delete')
+    }
+  }
 
   const handleItemUpdate = async (action: string, item: IStandupItem) => {
     let payload: any = { action: 'update' }
@@ -32,13 +47,19 @@ export default function StandupItem({ standupId, item, items, canEdit }) {
       })
     }
 
-    await fetch(`${window.location.origin}/api/standups/${standupId}`, {
-      method: 'PUT',
-      body: JSON.stringify(payload),
-    })
-    await mutate()
+    let result = await fetch(
+      `${window.location.origin}/api/standups/${standupId}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(payload),
+      }
+    )
 
-    playsound('delete')
+    result = await result.json()
+    await playSound(action, result)
+
+    await mutate()
+    return result
   }
 
   const handleUserAction = async (action: string) => {
@@ -72,6 +93,7 @@ export default function StandupItem({ standupId, item, items, canEdit }) {
     setState('pending')
 
     await handleItemUpdate(method, payload)
+
     setState('done')
   }
 

@@ -28,10 +28,11 @@ const fetcher = (url) => {
 }
 
 export default function useStandupsApi() {
-  const { data, error, mutate } = useSWR<{ [id: string]: IStandups }>(
-    '/api/standups',
-    fetcher,
-    { shouldRetryOnError: false }
-  )
-  return { data, error, mutate }
+  const { data, error, isValidating, mutate } = useSWR<{
+    [id: string]: IStandups
+  }>('/api/standups', fetcher, { shouldRetryOnError: false })
+
+  console.log({ isValidating })
+
+  return { data, error, isValidating, mutate }
 }

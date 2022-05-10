@@ -36,7 +36,7 @@ const seedDatabase = async () => {
 // seedDatabase()
 
 export default function Dashboard() {
-  const { data: standups = {}, mutate } = useStandupsApi()
+  const { data: standups = {}, isValidating, mutate } = useStandupsApi()
 
   const todaysStandups = standups[profile.date]
   const previousDayStandups = standups[yesterday.toLocaleDateString()]

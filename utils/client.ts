@@ -12,7 +12,7 @@ const itemSchema = new Schema({
 })
 
 export const StandupItemModel =
-  mongoose.models['StandupItem'] ||
+  mongoose.models?.['StandupItem'] ||
   mongoose.model<IStandupItem>('StandupItem', itemSchema)
 
 const standupSchema = new Schema({
@@ -22,7 +22,7 @@ const standupSchema = new Schema({
 })
 
 export const StandupModel =
-  mongoose.models['Standup'] ||
+  mongoose.models?.['Standup'] ||
   mongoose.model<IStandup>('Standup', standupSchema)
 
 export const setupMongooseClient = async (): Promise<Mongoose> => {

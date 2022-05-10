@@ -26,9 +26,11 @@ export default function Layout({ children, title = 'Easy Standups' }) {
         />
       </Head>
       {children}
-      <audio id="create-audio" src="/sound-effects/pop.flac"></audio>
-      <audio id="complete-audio" src="/sound-effects/ding.wav"></audio>
-      <audio id="delete-audio" src="/sound-effects/swipe.mp3"></audio>
+      <audio id="create-audio" src="/sound-effects/create-audio.flac"></audio>
+      <audio id="delete-audio" src="/sound-effects/delete-audio.mp3"></audio>
+      <audio id="edit-audio" src="/sound-effects/edit-audio.wav"></audio>
+      <audio id="finish-audio" src="/sound-effects/finish-audio.wav"></audio>
+      <audio id="undo-audio" src="/sound-effects/undo-audio.wav"></audio>
     </>
   )
 }

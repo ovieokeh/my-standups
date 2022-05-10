@@ -30,10 +30,10 @@ export default function StandupItemForm({
       method: 'PUT',
       body: JSON.stringify({ action: 'add', item: newItem }),
     })
+    await playsound('create')
     await mutate()
     setNewItemDescription('')
     setState('done')
-    playsound('create')
   }
 
   return (

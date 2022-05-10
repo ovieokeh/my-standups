@@ -21,10 +21,10 @@ export default function StandupForm() {
       method: 'POST',
       body: JSON.stringify({ name, items: [] }),
     })
+    await playsound('create')
     await mutate()
     setName('')
     setState('done')
-    playsound('create')
   }
 
   return (
